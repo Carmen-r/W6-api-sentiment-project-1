@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 nltk.download('vader_lexicon')
 sia = SentimentIntensityAnalyzer()
 
-# Analizar sentimiento de todas la frases de toda la serie
+# Analizar sentimiento de todas la frases de toda la temporada 8
 
 def analyzeResultPersonaje(personaje_id):
     all_sentences = list(collection_sentencia.find({"Name":{"$eq" : personaje_id}}))
@@ -78,16 +78,32 @@ def analyzeResultallPersonajes():
     return total
 
 
+# Plot visualizacion de sentimientos de los personajes
+def visualization_total():
+    total =  analyzeResultallPersonajes()
+    total_df = pd.DataFrame(total)
+    sample = total_df
+    fig = go.Figure(data=[
+        go.Bar(name='Negativo', x=sample['Name'], y=sample['neg']),
+        go.Bar(name='Neutro',x=sample['Name'], y=sample['neu']),
+        go.Bar(name='Positivo', x=sample['Name'], y=sample['pos']),
+        go.Bar(name='Compound', x=sample['Name'], y=sample['compound'])
+    ])
 
+    fig.update_layout(barmode='group')
+    fig.write_html("templates/sentiment_total.html")    
+    
+
+# Plot visualizacion de sentimientos de 5 personajes aleatorios
 def visualization():
     total =  analyzeResultallPersonajes()
     total_df = pd.DataFrame(total)
     sample = total_df.sample(5)
     fig = go.Figure(data=[
-    go.Bar(name='Negativo', x=sample['Name'], y=sample['neg']),
-    go.Bar(name='Neutro',x=sample['Name'], y=sample['neu']),
-    go.Bar(name='Positivo', x=sample['Name'], y=sample['pos']),
-    go.Bar(name='Compound', x=sample['Name'], y=sample['compound'])
+        go.Bar(name='Negativo', x=sample['Name'], y=sample['neg']),
+        go.Bar(name='Neutro',x=sample['Name'], y=sample['neu']),
+        go.Bar(name='Positivo', x=sample['Name'], y=sample['pos']),
+        go.Bar(name='Compound', x=sample['Name'], y=sample['compound'])
     ])
 
     fig.update_layout(barmode='group')

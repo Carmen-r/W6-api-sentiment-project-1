@@ -6,7 +6,7 @@ import json
 import markdown.extensions.fenced_code
 import tools.getdata as get
 import tools.postdata as pos
-from tools.analyze import analyzeResultPersonaje,analyzeResultPersonajeEpisodio, analyzeResultSerie, analyzeResultallPersonajes, visualization
+from tools.analyze import analyzeResultPersonaje,analyzeResultPersonajeEpisodio, analyzeResultSerie, analyzeResultallPersonajes, visualization, visualization_total
 from tools.errorHandler import jsonErrorHandler
 from pymongo import MongoClient
 import numpy as np
@@ -36,15 +36,23 @@ def index():
 
 ### GET 
 
+# Base de datos
+@app.route("/basedatos")
+def basedatos():
+    todo = get.bdmongo()
+    return jsonify(todo)
+
+
+
 # Devuelve las sentencias de un personaje
-@jsonErrorHandler
+
 @app.route("/sentencias/<id_personaje>")
 def frasespersonaje(id_personaje):
     frases = get.mensajespersonaje(id_personaje)
     return jsonify(frases)
 
 # Devuelve todos los personajes
-@jsonErrorHandler
+
 @app.route("/personajes")
 def todoslospersonajes():
     personajes = get.personajes()
@@ -65,14 +73,13 @@ def todassentencias_episodio(id_episodio):
 
 
 ### POST
+
 # Creamos un personaje
 @app.route('/personaje/create', methods=["POST"])
 def insert_Personaje():
     name = request.form.get("Name")
     pos.insertPersonaje(name)
     return "Se ha introducido el personaje en la base de datos"
-
-
 
 
 # Añadimos nueva frase pasandole un personaje y un episodio con POST
@@ -95,6 +102,7 @@ def insert_Episodio():
 
 
 # ANALISIS SENTIMIENTO
+
 # Analizar sentimiento de todas la frases de toda la serie de un personaje
 @app.route('/analyze/sentences_serie/<id_personaje>')
 def analyze_sentences_serie(id_personaje):
@@ -119,6 +127,13 @@ def analyze_sentences_episodio(id_episodio,id_personaje):
 def analyze_result_all_personajes():
     result = analyzeResultallPersonajes()
     return jsonify(result)
+
+
+# Visualizacion de todos los personajes
+@app.route('/visualizacion_total')
+def vis():
+    visualization_total()
+    return render_template('sentiment_total.html')
 
 
 # Visualizacion

@@ -1,12 +1,13 @@
 
+<meta charset="utf-8"/>
 
 
 <center> 
 <img src= "https://i1.wp.com/codigoespagueti.com/wp-content/uploads/2019/04/game-of-thrones-serie-spin-off-cancelacion.jpg?fit=1080%2C608&quality=80&ssl=1" width="700" height="500">
 </center>
 
-## GOTAPI es una api (Application Programming Interfaces), en la que podemos recoger información de 
-## de juego de tronos. Podemos coger todas las frases de todos los personajes durante la octava temporada.
+
+## GOTAPI es una api (Application Programming Interfaces), en la que podemos recoger y aumentar informacion de la serie Juego de Tronos
 
 
 ### URL
@@ -14,6 +15,9 @@
 url = "http://localhost:5000"
 
 # @GET
+
+### Base de datos
+("/basedatos")
 
 ### Devuelve las sentencias de un personaje
 ("/sentencias/<"id_personaje>")
@@ -33,21 +37,38 @@ url = "http://localhost:5000"
 ### Creamos un personaje
 ('/personaje/create')
 
-### Añadimos nueva sentencia/frase pasandole un personaje y un episodio
+### Creamos nueva sentencia/frase pasandole un personaje y un episodio
 ("/nuevafrase")
 
-### Creación de un episodio
+### Creamos un nuevo episodio
 ('/episodio/create)
 
+# @Analisis de sentimiento
 
+### Analizar sentimiento de todas la frases de toda la serie de un personaje
+('/analyze/sentences_serie/<id_personaje>')
 
-# LIBRERIAS NECESARIAS
+### Analizar el sentimiento de todas las frases de los personajes
+(/analyze/sentences_all
+
+### Analisis de todas las frases de un personaje en un episodio 
+(/analyze/sentences_episodio/<id_episodio>/<id_personaje>')
+
+### Analisis de todos los personajes en la temporada 8
+('/analyze/personajes_all')
+
+### Visualizacion de todos los personajes
+('/visualizacion_total')
+
+### Visualizacion de 5 personajes aleatorios
+('/visualizacion')
+
+## LIBRERIAS NECESARIAS
 
 * [Flask](https://palletsprojects.com/p/flask/)
 * [NLTK](https://www.nltk.org/)
 * [Jupyter](https://jupyter.org/)
 * [Python](https://www.python.org/)
 * [MongoDB](https://www.mongodb.com/es)
-
 
 

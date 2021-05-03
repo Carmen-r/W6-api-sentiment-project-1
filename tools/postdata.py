@@ -10,8 +10,6 @@ def insertPersonaje(name):
     dic_name = {"Name": name}
     collection_personajes.insert_one(dic_name)
 
-
-
 # Añadir un usuario al chat
 def insertamensaje(id_episodio,id_personaje,frase):
     dic_insert = {
